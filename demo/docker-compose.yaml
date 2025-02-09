@@ -27,7 +27,7 @@ services:
     image: envoy:latest
     environment:
       <<: *common-env
-    command: taskiq worker envoy.notification.main:broker envoy.notification.task
+    command: taskiq worker envoy.notification.main:broker envoy.notification.task.check
     restart: unless-stopped
     networks:
       - envoy-net
@@ -61,6 +61,8 @@ services:
 
   envoy:
     image: envoy:latest
+    extra_hosts:
+      - "example.com:host-gateway"
     ports:
       - 127.0.0.1:8000:8000
     restart: unless-stopped
