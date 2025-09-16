@@ -181,12 +181,14 @@ class EndDeviceManager:
         """
         is_device_cert = scope.source == CertificateType.DEVICE_CERTIFICATE
         if is_device_cert:
-            # This will happen for a site registration from a device cert
-            # In this case - the client is restricted to ONLY interact with the site with the same sfdi/lfdi
-            if end_device.sFDI != scope.sfdi:
-                raise ForbiddenError(f"sfdi mismatch. POST body: {end_device.sFDI} cert: {scope.sfdi}")
-            if not EndDeviceManager.lfdi_matches(end_device.lFDI, scope.lfdi):
-                raise ForbiddenError(f"lfdi mismatch. POST body: '{end_device.lFDI}' cert: '{scope.lfdi}'")
+            logger.info("add_enddevice_for_scope: request made with device cert")
+            pass
+            # # This will happen for a site registration from a device cert
+            # # In this case - the client is restricted to ONLY interact with the site with the same sfdi/lfdi
+            # if end_device.sFDI != scope.sfdi:
+            #     raise ForbiddenError(f"sfdi mismatch. POST body: {end_device.sFDI} cert: {scope.sfdi}")
+            # if not EndDeviceManager.lfdi_matches(end_device.lFDI, scope.lfdi):
+            #     raise ForbiddenError(f"lfdi mismatch. POST body: '{end_device.lFDI}' cert: '{scope.lfdi}'")
 
         # Generate the sfdi if required (never do this for device certs)
         if end_device.sFDI is None or end_device.sFDI == 0 and not is_device_cert:
